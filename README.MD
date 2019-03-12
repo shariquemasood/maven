@@ -38,6 +38,24 @@ default ="LambdaRole-ES"
 ```
 sns, cloudwatch, kms, LambdaVpcAccess
 ```
+### Varibale to pass in Terraform Script
+```
+file_name = elasticFinal.zip
+```
+```
+function_name = testingLambda
+```
+```
+function_handler = ingest
+```
+```
+subnet_id_1, subnet_id_2 and security_group
+```
+```
+timeout = 59
+```
+Check <b>variable.tf</b> for more
+
 ### Running Terraform
 Apply Terraform
 
