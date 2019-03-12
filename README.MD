@@ -28,18 +28,16 @@ ELASTICSEARCH_HOST
 ```
 ELASTICSEARCH_PORT
 ```
-
-<b>threshold:</b> is in days you want notification <br>
-<b>topicname:</b> should be the sns topic name
-
 ### Terraform will Create a Role for Lambda Function
 
 ```
 default ="LambdaRole-ES"
 ```
-<b> email:</b> of subscriber to get notification of ssl expiration<br>
-<b> domainname:</b> to check ssl expiry of a domain
+<b> The role have following policy attach to it:</b> 
 
+```
+sns, cloudwatch, kms, LambdaVpcAccess
+```
 ### Running Terraform
 Apply Terraform
 
