@@ -1,77 +1,46 @@
-# Elastic Data Ingest with AWS Lambda
+# Insert Trigger and Procedure
 
-A Lambda Function to  ingest the incremental data to elastic search . The lambda Function invoked by database triggers such as. insert, update and delete.
+Procedure to call Lambda funtion when of the Trigger event insert, update and delete occure. 
 
 ## Getting Started
-### Environment Varible
+### Adding Trigger and Procedure
 
-The environment varible to pass in lambda function
-
-```
-DATABASE_HOST
-```
-```
-DATABASE_NAME
-```
-```
-DATABASE_PASSWORD
-```
-```
-DATABASE_PORT
-```
-```
-DATABASE_USER
-```
-```
-ELASTICSEARCH_HOST
-```
-```
-ELASTICSEARCH_PORT
-```
-### Terraform will Create a Role for Lambda Function
+login to mysql console select a database
 
 ```
-default ="LambdaRole-ES"
-```
-<b> The role have following policy attach to it:</b> 
-
-```
-sns, cloudwatch, kms, LambdaVpcAccess
-```
-### Varibale to pass in Terraform Script
-```
-file_name = elasticFinal.zip
-```
-```
-function_name = testingLambda
-```
-```
-function_handler = ingest
-```
-```
-subnet_id_1, subnet_id_2 and security_group
-```
-```
-timeout = 59
-```
-Check <b>variable.tf</b> for more
-
-### Running Terraform
-Apply Terraform
-
-```
-AWS_PROFILE=default terraform apply
+mysql>source ProcedureTrigger.sql;
 ```
 
-Destroy Terraform
+### The RDS need a Role to call Lambda Function The Role have following Policy Attach to it
 
 ```
-AWS_PROFILE=default terraform destroy
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "lambda:InvokeFunction",
+            "Resource": "<arn of lambda function>"
+        }
+    ]
+}
 ```
-<b>default:</b> The default aws profile
+### Attaching Role to RDS
+Add the created role in Cluster level Parameter Group
+```
+aws_default_lambda_role   <arn of IAM role>
+```
+### Also add the Role in 
+```
+Manage IAM roles
+```
+Check <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Integrating.Authorizing.IAM.AddRoleToDBCluster.html">Associating an IAM Role with an Amazon Aurora MySQL DB Cluster</a> For More.
+
+### Reboot the RDS
 ## Built With
 
-* [Terraform](https://www.terraform.io/) - The IaC used
-* [Python](https://www.python.org/) - python2.7
+* [MySql](https://dev.mysql.com/doc/) - MySql
+* [Python](https://www.python.org/) - python3.6
 * [AWS_Lambda](https://aws.amazon.com/lambda/) - Serverless computing platform
 
